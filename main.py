@@ -23,9 +23,9 @@ from handshape_feature_extractor import HandShapeFeatureExtractor
 # print(sot_set)
 # sot_set = [x - 1 for x in sot_set]
 # np.savetxt('Results.csv', sot_set, fmt="% d")
+model = HandShapeFeatureExtractor.get_instance()
 
 def getFeatureVector(files_list):
-    model = HandShapeFeatureExtractor.get_instance()
     vectors = []
     for video_frame in files_list:
         img = cv2.imread(video_frame)
@@ -172,5 +172,5 @@ for i in range(0, 51):
 
 print("Accuracy = " + str(((accurateResult / 51) * 100)))
 
-result = [x - 1 for x in result]
-np.savetxt('Results.csv', result, fmt="% d")
+sot_set = [x - 1 for x in sot_set]
+np.savetxt('Results.csv', sot_set, fmt="% d")
