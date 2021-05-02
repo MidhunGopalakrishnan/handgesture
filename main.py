@@ -151,4 +151,4 @@ print("Accuracy = " + str(((accurateResult / 51) * 100)))
 
 result = [x - 1 for x in result]
 # accurateResult = [x - 1 for x in accurateResult]
-np.savetxt('Results.csv', accurateResult, fmt="% d")
+np.savetxt('Results.csv', sot_set, fmt="% d")
