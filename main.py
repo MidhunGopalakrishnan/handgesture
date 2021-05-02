@@ -142,6 +142,7 @@ for i in range(0, 51):
 
 print(sot_set)
 
+
 accurateResult = 0
 for i in range(0, 51):
     if sot_set[i] == result[i]:
