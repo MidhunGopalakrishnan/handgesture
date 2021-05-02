@@ -21,7 +21,7 @@ def getFeatureVector(files_list):
     vectors = []
     for video_frame in files_list:
         img = cv2.imread(video_frame)
-        # img = cv2.rotate(img, cv2.ROTATE_180)
+        img = cv2.rotate(img, cv2.ROTATE_180)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         results = model.extract_feature(img)
         results = np.squeeze(results)
@@ -30,7 +30,10 @@ def getFeatureVector(files_list):
 
 
 def generatePenultimateLayer(inputPathName, csvFileName):
-    videos = glob.glob(os.path.join(inputPathName, "*"))
+    videos = []
+    for fileName in os.listdir(inputPathName):
+        videos.append(os.path.join(inputPathName, fileName))
+    # videos = glob.glob(os.path.join(inputPathName, "*"))
     frames_path = os.path.join("frames_" + inputPathName)
     Path("frames_" + inputPathName).mkdir(parents=True, exist_ok=True)
     fileNumber = 0
@@ -38,13 +41,22 @@ def generatePenultimateLayer(inputPathName, csvFileName):
         print("Processing Video ", video)
         frameExtractor(video, frames_path, fileNumber)
         fileNumber += 1
-    frames = glob.glob(os.path.join(frames_path, "*.png"))
+
+    frames = []
+    for fileName in os.listdir(frames_path):
+        if fileName.endswith(".png"):
+            frames.append(os.path.join(frames_path, fileName))
+
+    # frames = glob.glob(os.path.join(frames_path, "*.png"))
     feature_vector = getFeatureVector(frames)
     np.savetxt(csvFileName, feature_vector, delimiter=",")
 
 
 def generatePenultimateLayerTrainData(inputPathName, csvFileName):
-    videos = glob.glob(os.path.join(inputPathName, "*"))
+    videos = []
+    for fileName in os.listdir(inputPathName):
+        videos.append(os.path.join(inputPathName, fileName))
+    # videos = glob.glob(os.path.join(inputPathName, "*"))
     frames_path = os.path.join("frames_sot_" + inputPathName)
     Path("frames_sot_" + inputPathName).mkdir(parents=True, exist_ok=True)
     fileNumber = 0
@@ -52,7 +64,11 @@ def generatePenultimateLayerTrainData(inputPathName, csvFileName):
         print("Processing Video ", video)
         frameExtractorSOT(video, frames_path, fileNumber)
         fileNumber += 1
-    frames = glob.glob(os.path.join(frames_path, "*.png"))
+    frames = []
+    for fileName in os.listdir(frames_path):
+        if fileName.endswith(".png"):
+            frames.append(os.path.join(frames_path, fileName))
+    # frames = glob.glob(os.path.join(frames_path, "*.png"))
     feature_vector = getFeatureVector(frames)
     np.savetxt(csvFileName, feature_vector, delimiter=",")
 
