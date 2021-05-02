@@ -4,16 +4,16 @@ Created on Thu Jan 28 00:44:25 2021
 
 @author: chakati
 """
-import glob
-import shutil
-import sys
-import cv2
+# import glob
+# import shutil
+# import sys
+# import cv2
 import numpy as np
-from scipy import spatial
-import os
-from pathlib import Path
-from frameextractor import frameExtractorSOT, frameExtractor
-from handshape_feature_extractor import HandShapeFeatureExtractor
+# from scipy import spatial
+# import os
+# from pathlib import Path
+# from frameextractor import frameExtractorSOT, frameExtractor
+# from handshape_feature_extractor import HandShapeFeatureExtractor
 
 
 sot_set = []
