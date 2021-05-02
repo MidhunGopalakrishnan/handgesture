@@ -137,8 +137,8 @@ sot_set = []
 resultPush = 1;
 for i in range(0, 51):
     sot_set.append(resultPush)
-    if i != 0 and (i + 1) % 3 == 0:
-        resultPush += 1
+    # if i != 0 and (i + 1) % 3 == 0:
+    #     resultPush += 1
 
 print(sot_set)
 
@@ -150,5 +150,5 @@ for i in range(0, 51):
 print("Accuracy = " + str(((accurateResult / 51) * 100)))
 
 result = [x - 1 for x in result]
-accurateResult = [x - 1 for x in accurateResult]
+# accurateResult = [x - 1 for x in accurateResult]
 np.savetxt('Results.csv', accurateResult, fmt="% d")
