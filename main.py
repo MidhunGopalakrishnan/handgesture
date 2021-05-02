@@ -126,6 +126,7 @@ for x in test_data:
 print(my_dict2)
 result = []
 
+
 for x in my_dict2:
     result.append(getPattern(my_dict2.get(x), my_dict))
 
