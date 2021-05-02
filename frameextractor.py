@@ -34,9 +34,8 @@ trainFrame = {
 }
 
 
-def frameExtractor(videopath, frames_path, count):
-    if not os.path.exists(frames_path):
-        os.mkdir(frames_path)
+def frameExtractor(videopath):
+    frameList  = []
     cap = cv2.VideoCapture(videopath)
     video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
     for pct in range(1, 10):
@@ -44,13 +43,11 @@ def frameExtractor(videopath, frames_path, count):
         frame_no = round(video_length*pct/10);
         cap.set(1, frame_no)
         ret, frame = cap.read()
-        filepath = frames_path+"/"+str(count+1)+"_"+str(frame_no+1)+".png"
-        cv2.imwrite(filepath, frame)
+        frameList.append(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
+    return frameList
 
 
-def frameExtractorSOT(videopath, frames_path, count):
-    if not os.path.exists(frames_path):
-        os.mkdir(frames_path)
+def frameExtractorSOT(videopath):
     cap = cv2.VideoCapture(videopath)
     video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
     video_file_name = videopath.rsplit('\\', 1)
@@ -59,4 +56,5 @@ def frameExtractorSOT(videopath, frames_path, count):
     # print("Extracting frame..\n")
     cap.set(1, frame_no)
     ret, frame = cap.read()
-    cv2.imwrite(frames_path + "/%#05d.png" % (count + 1), frame)
+    return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+

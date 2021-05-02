@@ -12,7 +12,6 @@ from pathlib import Path
 from frameextractor import frameExtractorSOT, frameExtractor
 from handshape_feature_extractor import HandShapeFeatureExtractor
 
-
 # sot_set = []
 # resultPush = 1;
 # for i in range(0, 51):
@@ -24,6 +23,7 @@ from handshape_feature_extractor import HandShapeFeatureExtractor
 # sot_set = [x - 1 for x in sot_set]
 # np.savetxt('Results.csv', sot_set, fmt="% d")
 model = HandShapeFeatureExtractor.get_instance()
+
 
 def getFeatureVector(files_list):
     vectors = []
@@ -37,64 +37,48 @@ def getFeatureVector(files_list):
     return vectors
 
 
-def generatePenultimateLayer(inputPathName, csvFileName):
+def generatePenultimateLayer(inputPathName):
     videos = []
+    framesList = []
+    featureVectors = []
     for fileName in os.listdir(inputPathName):
         videos.append(os.path.join(inputPathName, fileName))
-    # videos = glob.glob(os.path.join(inputPathName, "*"))
-    frames_path = os.path.join("frames_" + inputPathName)
-    Path("frames_" + inputPathName).mkdir(parents=True, exist_ok=True)
-    fileNumber = 0
+
     for video in videos:
         print("Processing Video ", video)
-        frameExtractor(video, frames_path, fileNumber)
-        fileNumber += 1
+        framesList = framesList + frameExtractor(video)
 
-    frames = []
-    for fileName in os.listdir(frames_path):
-        if fileName.endswith(".png"):
-            frames.append(os.path.join(frames_path, fileName))
+    for x in framesList:
+        feature = model.extract_feature(x)
+        featureVectors.append(feature)
 
-    # frames = glob.glob(os.path.join(frames_path, "*.png"))
-    feature_vector = getFeatureVector(frames)
-    np.savetxt(csvFileName, feature_vector, delimiter=",")
+    return featureVectors
 
 
-def generatePenultimateLayerTrainData(inputPathName, csvFileName):
+def generatePenultimateLayerTrainData(inputPathName):
     videos = []
+    featureVectors = []
     for fileName in os.listdir(inputPathName):
         videos.append(os.path.join(inputPathName, fileName))
-    # videos = glob.glob(os.path.join(inputPathName, "*"))
-    frames_path = os.path.join("frames_sot_" + inputPathName)
-    Path("frames_sot_" + inputPathName).mkdir(parents=True, exist_ok=True)
-    fileNumber = 0
     for video in videos:
         print("Processing Video ", video)
-        frameExtractorSOT(video, frames_path, fileNumber)
-        fileNumber += 1
-    frames = []
-    for fileName in os.listdir(frames_path):
-        if fileName.endswith(".png"):
-            frames.append(os.path.join(frames_path, fileName))
-    # frames = glob.glob(os.path.join(frames_path, "*.png"))
-    feature_vector = getFeatureVector(frames)
-    np.savetxt(csvFileName, feature_vector, delimiter=",")
+        frame = frameExtractorSOT(video)
+        feature = model.extract_feature(frame)
+        featureVectors.append(feature)
+    return featureVectors
 
 
 # =============================================================================
 # Get the penultimate layer for training data
 # =============================================================================
-opfilename3 = 'train_sot_penultimate_layer.csv'
-generatePenultimateLayerTrainData("traindata", opfilename3)
+sot_vectors = generatePenultimateLayerTrainData("traindata")
 
-opfilename1 = 'training_penultimate_layer.csv'
-generatePenultimateLayer("traindata", opfilename1)
+train_vectors = generatePenultimateLayer("traindata")
 
 # =============================================================================
 # Get the penultimate layer for test data
 # =============================================================================
-opfilename2 = 'testing_penultimate_layer.csv'
-generatePenultimateLayer("test", opfilename2)
+test_vectors = generatePenultimateLayer("test")
 
 
 # =============================================================================
@@ -109,13 +93,11 @@ def getGesture(test_vector, train_penLayer):
     return gesture_num
 
 
-training_data = np.genfromtxt(opfilename3, delimiter=",")
-test_data = np.genfromtxt(opfilename1, delimiter=",")
 res = []
 my_dict = {};
 counter = 1
-for x in test_data:
-    res.append(getGesture(x, training_data))
+for x in train_vectors:
+    res.append(getGesture(x, sot_vectors))
     if counter % 9 == 0:
         my_dict[str(round(counter / 9))] = res
         res = []
@@ -135,21 +117,17 @@ def getSimilarity(testList1, testList2):
     res = len(set(testList1) & set(testList2)) / float(len(set(testList1) | set(testList2))) * 100
     return res
 
-
-training_data = np.genfromtxt(opfilename3, delimiter=",")
-test_data = np.genfromtxt(opfilename2, delimiter=",")
 res = []
 my_dict2 = {};
 counter = 1
-for x in test_data:
-    res.append(getGesture(x, training_data))
+for x in test_vectors:
+    res.append(getGesture(x, sot_vectors))
     if counter % 9 == 0:
         my_dict2[str(round(counter / 9))] = res
         res = []
     counter += 1
 print(my_dict2)
 result = []
-
 
 for x in my_dict2:
     result.append(getPattern(my_dict2.get(x), my_dict))
@@ -160,7 +138,7 @@ sot_set = []
 resultPush = 1;
 for i in range(0, 51):
     sot_set.append(resultPush)
-    if i != 0 and (i+1) % 3 == 0:
+    if i != 0 and (i + 1) % 3 == 0:
         resultPush += 1
 
 print(sot_set)
@@ -172,5 +150,5 @@ for i in range(0, 51):
 
 print("Accuracy = " + str(((accurateResult / 51) * 100)))
 
-sot_set = [x - 1 for x in sot_set]
-np.savetxt('Results.csv', sot_set, fmt="% d")
+result = [x - 1 for x in result]
+np.savetxt('Results.csv', result, fmt="% d")
