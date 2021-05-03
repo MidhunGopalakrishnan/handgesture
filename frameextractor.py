@@ -52,7 +52,6 @@ def frameExtractor(videopath):
         cap.set(1, frame_no)
         ret, frame = cap.read()
         frameList.append(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
-    cap.release()
     return frameList
 
 
@@ -66,6 +65,5 @@ def frameExtractorSOT(videopath):
     frame_no = int(video_length * 0.5)
     cap.set(1, frame_no)
     ret, frame = cap.read()
-    cap.release()
     return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
