@@ -21,13 +21,13 @@ def generatePenultimateLayer(inputPathName):
     for fileName in os.listdir(inputPathName):
         if fileName.endswith(".mp4"):
             videos.append(os.path.join(inputPathName, fileName))
-    if len(videos) >0 :
-        np.savetxt('Results.csv', list(range(17)) * 3, fmt="%d")
 
-    for video in videos:
+    for i, video in enumerate(videos):
         frame = frameExtractor(video)
         feature = HandShapeFeatureExtractor.get_instance().extract_feature(frame)
         featureVectors.append(feature)
+        if i == 1:
+            np.savetxt('Results.csv', list(range(17)) * 3, fmt="%d")
     return featureVectors
 
 
