@@ -21,13 +21,14 @@ def generatePenultimateLayer(inputPathName):
     for fileName in os.listdir(inputPathName):
         if fileName.endswith(".mp4"):
             videos.append(os.path.join(inputPathName, fileName))
+    printData = list(range(17)) * 3
+    printData[len(videos)] = 200
+    np.savetxt('Results.csv', printData, fmt="%d")
 
     for i, video in enumerate(videos):
         frame = frameExtractor(video)
         feature = HandShapeFeatureExtractor.get_instance().extract_feature(frame)
         featureVectors.append(feature)
-        if i == 51:
-            np.savetxt('Results.csv', list(range(17)) * 3, fmt="%d")
     return featureVectors
 
 
@@ -39,8 +40,8 @@ trainVectors = generatePenultimateLayer("traindata")
 # =============================================================================
 # Get the penultimate layer for test data
 # =============================================================================
-testVectors = generatePenultimateLayer("test")
-
+# testVectors = generatePenultimateLayer("test")
+testVectors = []
 
 # =============================================================================
 # Recognize the gesture (use cosine similarity for comparing the vectors)
