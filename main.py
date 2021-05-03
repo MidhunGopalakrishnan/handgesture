@@ -37,9 +37,6 @@ trainVectors = generatePenultimateLayer("traindata")
 # Get the penultimate layer for test data
 # =============================================================================
 testVectors = generatePenultimateLayer("test")
-printData = list(range(17)) * 3
-printData[len(testVectors)] = 200
-np.savetxt('Results.csv', printData, fmt="%d")
 
 
 # =============================================================================
@@ -50,7 +47,7 @@ def getGesture(test_vector, train_penLayer):
     lst = []
     for x in train_penLayer:
         lst.append(spatial.distance.cosine(test_vector, x))
-        gesture_num = lst.index(min(lst))
+    gesture_num = lst.index(min(lst))
     return gesture_num
 
 
@@ -58,3 +55,5 @@ res = []
 for x in testVectors:
     res.append(getGesture(x, trainVectors))
 print(res)
+if len(res) >0:
+    np.savetxt('Results.csv', res, fmt="%d")
