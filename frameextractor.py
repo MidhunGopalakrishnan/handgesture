@@ -50,7 +50,7 @@ def frameExtractor(videopath):
 def frameExtractorSOT(videopath):
     cap = cv2.VideoCapture(videopath)
     video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
-    video_file_name = videopath.rsplit('\\', 1)
+    # video_file_name = videopath.rsplit('\\', 1)
     # cutLocation = trainFrame.get(video_file_name[1], 0.5)
     # frame_no = int(video_length * cutLocation)
     # print("Extracting frame..\n")

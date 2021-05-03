@@ -86,6 +86,7 @@ try:
 except:
     printResult(0)
 
+
 try:
     train_vectors = generatePenultimateLayer("traindata")
 except:
@@ -181,3 +182,4 @@ except:
 result = [x - 1 for x in result]
 # # sot_set = [x - 1 for x in sot_set]
 np.savetxt('Results.csv', result, fmt="% d")
+
