@@ -8,28 +8,22 @@ import cv2
 import numpy as np
 from scipy import spatial
 import os
-from frameextractor import frameExtractorSOT, frameExtractor
 from handshape_feature_extractor import HandShapeFeatureExtractor
-
 
 model = HandShapeFeatureExtractor.get_instance()
 
 
-def getFeatureVector(files_list):
-    vectors = []
-    for video_frame in files_list:
-        img = cv2.imread(video_frame)
-        img = cv2.rotate(img, cv2.ROTATE_180)
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        results = model.extract_feature(img)
-        results = np.squeeze(results)
-        vectors.append(results)
-    return vectors
+def frameExtractorSOT(videopath):
+    cap = cv2.VideoCapture(videopath)
+    video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
+    frame_no = int(video_length * 0.4)
+    cap.set(1, frame_no)
+    ret, frame = cap.read()
+    return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
 
 def generatePenultimateLayer(inputPathName):
     videos = []
-    framesList = []
     featureVectors = []
     for fileName in os.listdir(inputPathName):
         if fileName.endswith(".mp4"):
@@ -37,14 +31,16 @@ def generatePenultimateLayer(inputPathName):
 
     for video in videos:
         print("Processing Video ", video)
-        tempList = frameExtractor(video)
-        for x in tempList:
-            framesList.append(x)
-
-    for x in framesList:
-        feature = model.extract_feature(x)
-        featureVectors.append(feature)
-
+        cap = cv2.VideoCapture(video)
+        video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
+        if video_length > 10:
+            for pct in range(1, 10):
+                frame_no = round((video_length * pct) * 0.1);
+                cap.set(1, frame_no)
+                ret, frame = cap.read()
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                feature = model.extract_feature(frame)
+                featureVectors.append(feature)
     return featureVectors
 
 
@@ -130,4 +126,3 @@ for x in my_dict2:
 result = [x - 1 for x in result]
 print(result)
 np.savetxt('Results.csv', result, fmt="%d")
-
