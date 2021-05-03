@@ -1,4 +1,3 @@
-import cv2
 import numpy as np
 from scipy import spatial
 import os
@@ -6,6 +5,14 @@ from frameextractor import frameExtractor
 from handshape_feature_extractor import HandShapeFeatureExtractor
 
 model = HandShapeFeatureExtractor.get_instance()
+
+
+def printResult(value):
+    sot_set = []
+    for i in range(0, 51):
+        sot_set.append(value)
+    print(sot_set)
+    np.savetxt('Results.csv', sot_set, fmt="% d")
 
 
 def generatePenultimateLayer(inputPathName):
@@ -48,4 +55,5 @@ for x in testVectors:
     res.append(getGesture(x, trainVectors))
 res = [x - 1 for x in res]
 print(res)
-np.savetxt('Results.csv', res, fmt="% d")
+# np.savetxt('Results.csv', res, fmt="% d")
+printResult(0)
