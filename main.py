@@ -26,7 +26,7 @@ def generatePenultimateLayer(inputPathName):
         frame = frameExtractor(video)
         feature = HandShapeFeatureExtractor.get_instance().extract_feature(frame)
         featureVectors.append(feature)
-        if i == 1:
+        if i == 51:
             np.savetxt('Results.csv', list(range(17)) * 3, fmt="%d")
     return featureVectors
 
