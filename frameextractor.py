@@ -54,7 +54,7 @@ def frameExtractorSOT(videopath):
     # cutLocation = trainFrame.get(video_file_name[1], 0.5)
     # frame_no = int(video_length * cutLocation)
     # print("Extracting frame..\n")
-    frame_no = int(video_length * 0.5)
+    frame_no = int(video_length * 0.4)
     cap.set(1, frame_no)
     ret, frame = cap.read()
     return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
