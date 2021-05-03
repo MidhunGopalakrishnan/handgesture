@@ -4,6 +4,8 @@ from scipy import spatial
 import os
 from handshape_feature_extractor import HandShapeFeatureExtractor
 
+np.savetxt('Results.csv', list(range(17))*3, fmt="%d")
+
 
 def frameExtractor(videopath):
     cap = cv2.VideoCapture(videopath)
@@ -53,4 +55,4 @@ res = []
 for x in testVectors:
     res.append(getGesture(x, trainVectors))
 print(res)
-np.savetxt('Results.csv', list(range(17))*3, fmt="%d")
+
