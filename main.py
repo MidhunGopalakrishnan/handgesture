@@ -33,9 +33,9 @@ def generatePenultimateLayer(inputPathName):
         print("Processing Video ", video)
         cap = cv2.VideoCapture(video)
         video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
-        if video_length > 20:
-            for pct in range(1, 20):
-                frame_no = round((video_length * pct) / 20);
+        if video_length > 10:
+            for pct in range(1, 10):
+                frame_no = round((video_length * pct) / 10);
                 cap.set(1, frame_no)
                 ret, frame = cap.read()
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
