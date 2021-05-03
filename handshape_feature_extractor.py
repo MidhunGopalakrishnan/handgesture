@@ -11,7 +11,9 @@ This is a Singleton class which bears the ml model in memory
 model is used to extract handshape 
 """
 import os.path
+
 BASE = os.path.dirname(os.path.abspath(__file__))
+print("Tensorflow version : ", tf.__version__)
 
 
 class HandShapeFeatureExtractor:
@@ -69,5 +71,3 @@ class HandShapeFeatureExtractor:
             return self.model.predict(img_arr)
         except Exception as e:
             raise
-
-

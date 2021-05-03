@@ -70,6 +70,10 @@ def generatePenultimateLayerTrainData(inputPathName):
 # =============================================================================
 # Get the penultimate layer for training data
 # =============================================================================
+print("OpenCV version : ", cv2.__version__)
+print("Numpy version : ", np.__version__)
+# print("Spatial version :",spatial.__version__)
+
 sot_vectors = generatePenultimateLayerTrainData("traindata")
 
 train_vectors = generatePenultimateLayer("traindata")
