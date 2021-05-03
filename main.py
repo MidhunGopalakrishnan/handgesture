@@ -178,6 +178,6 @@ except:
 #
 # print("Accuracy = " + str(((accurateResult / 51) * 100)))
 #
-# result = [x - 1 for x in result]
+result = [x - 1 for x in result]
 # # sot_set = [x - 1 for x in sot_set]
-# np.savetxt('Results.csv', sot_set, fmt="% d")
+np.savetxt('Results.csv', result, fmt="% d")
