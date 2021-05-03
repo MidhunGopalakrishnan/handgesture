@@ -91,7 +91,8 @@ test_vectors = generatePenultimateLayer("test")
 def getGesture(test_vector, train_penLayer):
     lst = []
     for x in train_penLayer:
-        lst.append(spatial.distance.cosine(test_vector, x))
+        distance = spatial.distance.cosine(test_vector, x)
+        lst.append(distance)
     gesture_num = lst.index(min(lst)) + 1
     return gesture_num
 
