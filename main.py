@@ -7,14 +7,6 @@ from handshape_feature_extractor import HandShapeFeatureExtractor
 model = HandShapeFeatureExtractor.get_instance()
 
 
-def printResult(value):
-    sot_set = []
-    for i in range(0, 51):
-        sot_set.append(value)
-    print(sot_set)
-    np.savetxt('Results.csv', sot_set, fmt="% d")
-
-
 def generatePenultimateLayer(inputPathName):
     videos = []
     featureVectors = []
@@ -46,14 +38,12 @@ def getGesture(test_vector, train_penLayer):
     lst = []
     for x in train_penLayer:
         lst.append(spatial.distance.cosine(test_vector, x))
-        gesture_num = lst.index(min(lst)) + 1
+        gesture_num = lst.index(min(lst))
     return gesture_num
 
 
 res = []
 for x in testVectors:
     res.append(getGesture(x, trainVectors))
-res = [x - 1 for x in res]
 print(res)
-# np.savetxt('Results.csv', res, fmt="% d")
-printResult(0)
+np.savetxt('Results.csv', res, fmt="%d")
