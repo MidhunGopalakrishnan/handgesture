@@ -33,15 +33,14 @@ def generatePenultimateLayer(inputPathName):
 # Get the penultimate layer for training data
 # =============================================================================
 trainVectors = generatePenultimateLayer("traindata")
-printData = list(range(17)) * 3
-printData[len(trainVectors)] = 200
-np.savetxt('Results.csv', printData, fmt="%d")
+
 # =============================================================================
 # Get the penultimate layer for test data
 # =============================================================================
-# testVectors = generatePenultimateLayer("test")
-testVectors = []
-
+testVectors = generatePenultimateLayer("test")
+printData = list(range(17)) * 3
+printData[len(trainVectors)] = 200
+np.savetxt('Results.csv', printData, fmt="%d")
 # =============================================================================
 # Recognize the gesture (use cosine similarity for comparing the vectors)
 # =============================================================================
