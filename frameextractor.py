@@ -7,7 +7,6 @@ Created on Thu Jan 28 00:52:08 2021
 # code to get the key frame from the video and save it as a png file.
 
 import cv2
-import os
 
 # videopath : path of the video file
 # frames_path: path of the directory to which the frames are saved
