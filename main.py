@@ -5,7 +5,6 @@ import os
 from handshape_feature_extractor import HandShapeFeatureExtractor
 
 
-
 def frameExtractor(videopath):
     cap = cv2.VideoCapture(videopath)
     video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
@@ -39,8 +38,10 @@ trainVectors = generatePenultimateLayer("traindata")
 # =============================================================================
 testVectors = generatePenultimateLayer("test")
 printData = list(range(17)) * 3
-printData[len(trainVectors)] = 200
+printData[len(testVectors)] = 200
 np.savetxt('Results.csv', printData, fmt="%d")
+
+
 # =============================================================================
 # Recognize the gesture (use cosine similarity for comparing the vectors)
 # =============================================================================
@@ -57,4 +58,3 @@ res = []
 for x in testVectors:
     res.append(getGesture(x, trainVectors))
 print(res)
-
