@@ -92,7 +92,7 @@ except:
 try:
     train_vectors = generatePenultimateLayer("traindata")
 except:
-    printResult(2)
+    printResult(1)
 
 # =============================================================================
 # Get the penultimate layer for test data

@@ -41,17 +41,17 @@ def frameExtractor(videopath):
         for pct in range(1, 10):
             # print("Extracting frame..\n")
             frame_no = round((video_length*pct)*0.1);
-            if frame_no == 0:
-                frame_no = 1
             cap = cv2.VideoCapture(videopath)
             cap.set(1, frame_no)
             ret, frame = cap.read()
-            frameList.append(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
+            frameToStore = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            frameList.append(frameToStore)
     else:
         frame_no = int(video_length * 0.5)
         cap.set(1, frame_no)
         ret, frame = cap.read()
-        frameList.append(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
+        frameToStore = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        frameList.append(frameToStore)
     return frameList
 
 
