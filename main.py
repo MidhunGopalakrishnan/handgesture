@@ -21,9 +21,6 @@ def generatePenultimateLayer(inputPathName):
     for fileName in os.listdir(inputPathName):
         if fileName.endswith(".mp4"):
             videos.append(os.path.join(inputPathName, fileName))
-    printData = list(range(17)) * 3
-    printData[len(videos)] = 200
-    np.savetxt('Results.csv', printData, fmt="%d")
 
     for i, video in enumerate(videos):
         frame = frameExtractor(video)
@@ -36,7 +33,9 @@ def generatePenultimateLayer(inputPathName):
 # Get the penultimate layer for training data
 # =============================================================================
 trainVectors = generatePenultimateLayer("traindata")
-
+printData = list(range(17)) * 3
+printData[len(trainVectors)] = 200
+np.savetxt('Results.csv', printData, fmt="%d")
 # =============================================================================
 # Get the penultimate layer for test data
 # =============================================================================
