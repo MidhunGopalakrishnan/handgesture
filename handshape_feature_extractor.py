@@ -13,7 +13,6 @@ model is used to extract handshape
 import os.path
 
 BASE = os.path.dirname(os.path.abspath(__file__))
-print("Tensorflow version : ", tf.__version__)
 
 
 class HandShapeFeatureExtractor:
