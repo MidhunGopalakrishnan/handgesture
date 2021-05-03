@@ -4,7 +4,6 @@ from scipy import spatial
 import os
 from handshape_feature_extractor import HandShapeFeatureExtractor
 
-np.savetxt('Results.csv', list(range(17))*3, fmt="%d")
 
 
 def frameExtractor(videopath):
@@ -32,6 +31,7 @@ def generatePenultimateLayer(inputPathName):
 # Get the penultimate layer for training data
 # =============================================================================
 trainVectors = generatePenultimateLayer("traindata")
+np.savetxt('Results.csv', list(range(17))*3, fmt="%d")
 
 # =============================================================================
 # Get the penultimate layer for test data
