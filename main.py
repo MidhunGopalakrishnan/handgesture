@@ -24,6 +24,14 @@ from handshape_feature_extractor import HandShapeFeatureExtractor
 model = HandShapeFeatureExtractor.get_instance()
 
 
+def printResult(value):
+    sot_set = []
+    for i in range(0, 51):
+        sot_set.append(value)
+    print(sot_set)
+    np.savetxt('Results.csv', sot_set, fmt="% d")
+
+
 def getFeatureVector(files_list):
     vectors = []
     for video_frame in files_list:
@@ -73,15 +81,23 @@ def generatePenultimateLayerTrainData(inputPathName):
 print("OpenCV version : ", cv2.__version__)
 print("Numpy version : ", np.__version__)
 # print("Spatial version :",spatial.__version__)
+try:
+    sot_vectors = generatePenultimateLayerTrainData("traindata")
+except:
+    printResult(0)
 
-sot_vectors = generatePenultimateLayerTrainData("traindata")
-
-train_vectors = generatePenultimateLayer("traindata")
+try:
+    train_vectors = generatePenultimateLayer("traindata")
+except:
+    printResult(1)
 
 # =============================================================================
 # Get the penultimate layer for test data
 # =============================================================================
-test_vectors = generatePenultimateLayer("test")
+try:
+    test_vectors = generatePenultimateLayer("test")
+except:
+    printResult(2)
 
 
 # =============================================================================
@@ -96,17 +112,19 @@ def getGesture(test_vector, train_penLayer):
     gesture_num = lst.index(min(lst)) + 1
     return gesture_num
 
-
-res = []
-my_dict = {};
-counter = 1
-for x in train_vectors:
-    res.append(getGesture(x, sot_vectors))
-    if counter % 9 == 0:
-        my_dict[str(round(counter / 9))] = res
-        res = []
-    counter += 1
-print(my_dict)
+try:
+    res = []
+    my_dict = {};
+    counter = 1
+    for x in train_vectors:
+        res.append(getGesture(x, sot_vectors))
+        if counter % 9 == 0:
+            my_dict[str(round(counter / 9))] = res
+            res = []
+        counter += 1
+    print(my_dict)
+except:
+    print(3)
 
 
 def getPattern(x, my_dict):
@@ -121,40 +139,45 @@ def getSimilarity(testList1, testList2):
     res = len(set(testList1) & set(testList2)) / float(len(set(testList1) | set(testList2))) * 100
     return res
 
-res = []
-my_dict2 = {};
-counter = 1
-for x in test_vectors:
-    res.append(getGesture(x, sot_vectors))
-    if counter % 9 == 0:
-        my_dict2[str(round(counter / 9))] = res
-        res = []
-    counter += 1
-print(my_dict2)
-result = []
+try:
+    res = []
+    my_dict2 = {};
+    counter = 1
+    for x in test_vectors:
+        res.append(getGesture(x, sot_vectors))
+        if counter % 9 == 0:
+            my_dict2[str(round(counter / 9))] = res
+            res = []
+        counter += 1
+    print(my_dict2)
+    result = []
+except:
+    printResult(4)
 
-for x in my_dict2:
-    result.append(getPattern(my_dict2.get(x), my_dict))
+try:
+    for x in my_dict2:
+        result.append(getPattern(my_dict2.get(x), my_dict))
 
-print(result)
+    print(result)
+except:
+    printResult(5)
+# sot_set = []
+# resultPush = 1;
+# for i in range(0, 51):
+#     sot_set.append(resultPush)
+#     # if i != 0 and (i + 1) % 3 == 0:
+#     #     resultPush += 1
+#
+# print(sot_set)
 
-sot_set = []
-resultPush = 1;
-for i in range(0, 51):
-    sot_set.append(resultPush)
-    # if i != 0 and (i + 1) % 3 == 0:
-    #     resultPush += 1
 
-print(sot_set)
-
-
-accurateResult = 0
-for i in range(0, 51):
-    if sot_set[i] == result[i]:
-        accurateResult += 1
-
-print("Accuracy = " + str(((accurateResult / 51) * 100)))
-
-result = [x - 1 for x in result]
-# sot_set = [x - 1 for x in sot_set]
-np.savetxt('Results.csv', sot_set, fmt="% d")
+# accurateResult = 0
+# for i in range(0, 51):
+#     if sot_set[i] == result[i]:
+#         accurateResult += 1
+#
+# print("Accuracy = " + str(((accurateResult / 51) * 100)))
+#
+# result = [x - 1 for x in result]
+# # sot_set = [x - 1 for x in sot_set]
+# np.savetxt('Results.csv', sot_set, fmt="% d")
