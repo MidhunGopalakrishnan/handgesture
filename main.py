@@ -8,7 +8,7 @@ from handshape_feature_extractor import HandShapeFeatureExtractor
 def frameExtractor(videopath):
     cap = cv2.VideoCapture(videopath)
     video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
-    frame_no = int(video_length * 0.4)
+    frame_no = int(video_length * 0.45)
     cap.set(1, frame_no)
     ret, frame = cap.read()
     return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
