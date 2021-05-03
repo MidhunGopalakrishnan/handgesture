@@ -14,6 +14,7 @@ def frameExtractor(videopath):
     return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
 
+
 def generatePenultimateLayer(inputPathName):
     videos = []
     featureVectors = []
