@@ -19,7 +19,11 @@ def generatePenultimateLayer(inputPathName):
     videos = []
     featureVectors = []
     for fileName in os.listdir(inputPathName):
-        videos.append(os.path.join(inputPathName, fileName))
+        if fileName.endswith(".mp4"):
+            videos.append(os.path.join(inputPathName, fileName))
+    if len(videos) >0 :
+        np.savetxt('Results.csv', list(range(17)) * 3, fmt="%d")
+
     for video in videos:
         frame = frameExtractor(video)
         feature = HandShapeFeatureExtractor.get_instance().extract_feature(frame)
@@ -31,7 +35,6 @@ def generatePenultimateLayer(inputPathName):
 # Get the penultimate layer for training data
 # =============================================================================
 trainVectors = generatePenultimateLayer("traindata")
-np.savetxt('Results.csv', list(range(17))*3, fmt="%d")
 
 # =============================================================================
 # Get the penultimate layer for test data
