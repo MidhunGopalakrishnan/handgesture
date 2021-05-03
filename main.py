@@ -48,7 +48,6 @@ def generatePenultimateLayer(inputPathName):
     videos = []
     framesList = []
     featureVectors = []
-    tempList = []
     for fileName in os.listdir(inputPathName):
         videos.append(os.path.join(inputPathName, fileName))
 
